@@ -231,7 +231,7 @@ const drawCubeName = () => {
 
 // Need user action for WebBluetooth
 function connectCube() {
-    window.alert('test')
+    window.alert('test2')
 
 
 
@@ -240,6 +240,7 @@ function connectCube() {
 
   if (cubes[index] === undefined) {
     cubes[index] = false;
+    window.alert('test3')
     P5tCube.connectNewP5tCube().then((cube) => {
       cube.turnLightOn(index ? '#5cfc00' : '#00aeb1');
       cubes[index] = cube;
