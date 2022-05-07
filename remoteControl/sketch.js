@@ -1,3 +1,4 @@
+
 const cubes = [undefined, undefined];
 
 let cubeImg;
@@ -16,7 +17,7 @@ function setup() {
   const cvs = createCanvas(windowWidth, windowHeight);
   cvs.mouseClicked(connectCube);
   strokeWeight(2);
-  textSize(20);
+  textSize(18);
   textAlign(CENTER, CENTER);
 }
 
@@ -30,6 +31,7 @@ function draw() {
 
   drawCubeName();
   drawCovers();
+  drawText();
 }
 
 const calcJogStatus = (jogStats) => {
@@ -38,7 +40,7 @@ const calcJogStatus = (jogStats) => {
     const centerY = height / 2;
 
     // Base colored square size
-    const W = (width / 2) * 0.7;
+    const W = (width / 2) * 0.65;
 
     let x = centerX;
     let y = centerY;
@@ -206,15 +208,37 @@ const drawCubeName = () => {
   const centerY = height / 2;
   const W = (width / 2) * 0.7;
   push();
-  noStroke();
-  fill('white');
-  cubes.forEach((cube, ind) => {
-    if (cube) {
-      text(cube.cube.device.name, (ind * width) / 2 + width / 4, centerY - (W / 2) * 1.1);
-    }
-  });
+  {
+    noStroke();
+    fill('white');
+    cubes.forEach((cube, ind) => {
+      if (cube) {
+        text(cube.cube.device.name, (ind * width) / 2 + width / 4, centerY - (W / 2) * 1.05);
+      }
+    });
+  }
   pop();
 };
+
+const drawText = () => {
+
+  const textJp = '接続ダイアログが表示されない場合は画面を縦向きにしてください。';
+  const textEn = 'If the connection dialog does not appear, turn the screen to portrait orientation.';
+  const interval = 420;
+  const finalText = frameCount % interval < interval/2 ? textJp : textEn;
+
+  push();
+  {
+    noStroke();
+    fill('white');
+    textSize(13);
+    if(!cubes[0] && !cubes[1] && ( width > height)){
+      text(finalText, width/2, 20);
+    }
+  }
+  pop();
+
+}
 
 // Need user action for WebBluetooth
 function connectCube() {
@@ -222,11 +246,14 @@ function connectCube() {
   // console.log(index);
 
   if (cubes[index] === undefined) {
-    cubes[index] = false;
     P5tCube.connectNewP5tCube().then((cube) => {
-      cube.turnLightOn(index ? '#5cfc00' : '#00aeb1');
-      cubes[index] = cube;
-      // console.log(cube)
+      let finalIndex = index;
+      if(cubes[index]){
+        finalIndex = 1 - finalIndex; // convert index 0/1
+      }
+      cube.turnLightOn(finalIndex ? '#5cfc00' : '#00aeb1');
+      cubes[finalIndex] = cube;
+      // console.log(cube);
     });
   }
 }
