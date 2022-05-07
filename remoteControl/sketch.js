@@ -1,4 +1,3 @@
-
 const cubes = [undefined, undefined];
 
 let cubeImg;
@@ -221,24 +220,32 @@ const drawCubeName = () => {
 };
 
 const drawText = () => {
-
   const textJp = '接続ダイアログが表示されない場合は画面を縦向きにしてください。';
-  const textEn = 'If the connection dialog does not appear, turn the screen to portrait orientation.';
+  const textEn =
+    'If the connection dialog does not appear, turn the screen to portrait orientation.';
   const interval = 420;
-  const finalText = frameCount % interval < interval/2 ? textJp : textEn;
+  const finalText = frameCount % interval < interval / 2 ? textJp : textEn;
 
   push();
   {
     noStroke();
+
     fill('white');
     textSize(13);
-    if(!cubes[0] && !cubes[1] && ( width > height)){
-      text(finalText, width/2, 20);
+    if (!cubes[0] && !cubes[1] && width > height) {
+      text(finalText, width / 2, 20);
     }
+
+    fill('#FFFFFF70');
+    textSize(10);
+    text(
+      'Hosted on GitHub. Copyright (c) 2022 Tetsunori Nakayama. MIT License.',
+      width / 2,
+      height - 20
+    );
   }
   pop();
-
-}
+};
 
 // Need user action for WebBluetooth
 function connectCube() {
@@ -248,12 +255,17 @@ function connectCube() {
   if (cubes[index] === undefined) {
     P5tCube.connectNewP5tCube().then((cube) => {
       let finalIndex = index;
-      if(cubes[index]){
+      if (cubes[index]) {
         finalIndex = 1 - finalIndex; // convert index 0/1
       }
       cube.turnLightOn(finalIndex ? '#5cfc00' : '#00aeb1');
       cubes[finalIndex] = cube;
       // console.log(cube);
     });
+  }
+
+  // For bottom text link.
+  if (mouseY > height - 25) {
+    window.open('https://github.com/tetunori/p5toio-samples', '_blank');
   }
 }
