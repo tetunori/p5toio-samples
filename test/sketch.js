@@ -235,16 +235,16 @@ function connectCube() {
 
 
 
-  // const index = floor(mouseX / (width / 2));
-  // // console.log(index);
+  const index = floor(mouseX / (width / 2));
+  // console.log(index);
 
-  // if (cubes[index] === undefined) {
-  //   cubes[index] = false;
-  //   P5tCube.connectNewP5tCube().then((cube) => {
-  //     cube.turnLightOn(index ? '#5cfc00' : '#00aeb1');
-  //     cubes[index] = cube;
-  //     // console.log(cube)
-  //   });
-  // }
+  if (cubes[index] === undefined) {
+    cubes[index] = false;
+    P5tCube.connectNewP5tCube().then((cube) => {
+      cube.turnLightOn(index ? '#5cfc00' : '#00aeb1');
+      cubes[index] = cube;
+      // console.log(cube)
+    });
+  }
 }
 
