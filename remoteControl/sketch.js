@@ -13,7 +13,8 @@ function windowResized() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  const cvs = createCanvas(windowWidth, windowHeight);
+  cvs.mouseClicked(connectCube);
   strokeWeight(2);
   textSize(20);
   textAlign(CENTER, CENTER);
@@ -216,7 +217,7 @@ const drawCubeName = () => {
 };
 
 // Need user action for WebBluetooth
-function mouseClicked() {
+function connectCube() {
   const index = floor(mouseX / (width / 2));
   // console.log(index);
 
